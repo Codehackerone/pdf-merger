@@ -1,0 +1,176 @@
+:root {
+  --bg: #f6f5f2;
+  --surface: #ffffff;
+  --text: #1c1b19;
+  --muted: #6b6862;
+  --border: #e3e0da;
+  --accent: #d6402b;
+  --accent-text: #ffffff;
+  --danger: #b42318;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #151412;
+    --surface: #1f1e1b;
+    --text: #f1efe9;
+    --muted: #9c988f;
+    --border: #34322d;
+    --accent: #ef5a43;
+    --danger: #ff7b6b;
+  }
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.wrap {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 56px 16px 80px;
+}
+
+h1 {
+  margin: 0;
+  font-size: 2rem;
+  letter-spacing: -0.02em;
+}
+
+.sub {
+  margin: 6px 0 28px;
+  color: var(--muted);
+}
+
+.drop {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 44px 16px;
+  border: 2px dashed var(--border);
+  border-radius: 14px;
+  background: var(--surface);
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+.drop:hover, .drop.over { border-color: var(--accent); }
+.drop.over { background: color-mix(in srgb, var(--accent) 6%, var(--surface)); }
+.drop span { color: var(--muted); font-size: 0.9rem; }
+
+.error { color: var(--danger); margin: 12px 0 0; }
+.hint { color: var(--muted); font-size: 0.85rem; margin: 8px 0 0; text-align: right; }
+
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.list li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  cursor: grab;
+}
+.list li.dragging { opacity: 0.5; }
+
+.handle { color: var(--muted); letter-spacing: -3px; user-select: none; }
+.num {
+  min-width: 24px;
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+.meta { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 500; }
+.info { color: var(--muted); font-size: 0.8rem; }
+.bad { color: var(--danger); }
+
+.actions { display: flex; gap: 4px; }
+
+button {
+  font: inherit;
+  color: var(--text);
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 6px 10px;
+  cursor: pointer;
+}
+button:hover:not(:disabled) { border-color: var(--muted); }
+button:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.filename {
+  flex: 1;
+  min-width: 160px;
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  padding: 0 10px;
+}
+.filename input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  padding: 8px 0;
+  outline: none;
+}
+.filename span { color: var(--muted); }
+
+.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-text);
+  font-weight: 600;
+  padding: 9px 16px;
+}
+.primary:hover:not(:disabled) { filter: brightness(1.08); border-color: var(--accent); }
+
+.touch-only { display: none; }
+
+/* Phones and tablets: no hover, coarse pointer */
+@media (hover: none) and (pointer: coarse) {
+  .pointer-only { display: none; }
+  .touch-only { display: inline; }
+  .list li { cursor: default; }
+  .handle { display: none; }
+  .actions button { min-width: 40px; min-height: 40px; }
+  .footer button, .filename { min-height: 44px; }
+  /* Prevent iOS from zooming in when the filename input is focused */
+  .filename input { font-size: 16px; }
+}
+
+@media (max-width: 480px) {
+  .wrap { padding-top: 32px; }
+  h1 { font-size: 1.6rem; }
+  .drop { padding: 36px 16px; }
+  .footer .primary { flex: 1 1 100%; order: 3; }
+  .footer .clear { flex: 0 0 auto; }
+}
